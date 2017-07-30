@@ -5,6 +5,27 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+//Node REST client
+/*var Client = require('node-rest-client').Client;
+
+var client = new Client();*/
+
+
+// Initialize Firebase
+//var firebase = require("firebase");
+
+//Config
+/*var config = {
+    apiKey: "AIzaSyDpSCGLin0NUNdW41mguGAAU1zb6FdyN0U",
+    authDomain: "sany-node.firebaseapp.com",
+    databaseURL: "https://sany-node.firebaseio.com",
+    projectId: "sany-node",
+    storageBucket: "",
+    messagingSenderId: "693681612262"
+};
+firebase.initializeApp(config);*/
+
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 
