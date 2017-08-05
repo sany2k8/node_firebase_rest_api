@@ -13,7 +13,16 @@ var client = new Client();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a users resource');
+    res.setHeader('Content-Type', 'application/json');
+    res.send(
+        JSON.stringify({ 'Supported endpoints': {
+        '/get-users':'Get all users list',
+        '/add-user':'Add new user, send raw json on post body ',
+        '/get-user/:id':'Get single user by :id',
+        '/delete-user/:id':'Delete a user by :id',
+        '/update-user/:id':'Update a user by :id',
+        '/get-data-by-key/:property':'Get all database table from Firebase by :property',
+    } }));
 });
 
 //get all users
