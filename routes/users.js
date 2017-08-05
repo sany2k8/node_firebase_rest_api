@@ -6,7 +6,7 @@ var http = require('https');
 //firebase variables
 var firebase_data_url = 'https://sany-node.firebaseio.com/';
 var firebase_data_format = ".json";
-
+var nodes = {'usr':'users','msg':'messages'};
 //Node REST client
 var Client = require('node-rest-client').Client;
 var client = new Client();
@@ -30,8 +30,20 @@ router.get('/get-users',function (req,res,next) {
 });
 
 //get user by id
-router.get('/add-user',function (req,res,next) {
-    res.send('respond with a add-user');
+router.post('/add-user',function (req,res,next) {
+    if(req.body.constructor === Object && Object.keys(req.body).length !==0){
+        var args = {
+            data : req.body,
+            headers:{'Content-Type':'application/json'}
+        };
+
+        var clientPath = firebase_data_url + nodes.usr + firebase_data_format;
+        client.post(clientPath,args, function (data,response) {
+           if(response.statusCode === 200){
+               res.send(data);
+           }
+        });
+    }
 });
 
 //get user by id
