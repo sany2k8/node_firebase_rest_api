@@ -83,9 +83,28 @@ router.delete('/delete-user/:id',function (req,res,next) {
     }
 });
 
-//update user by id
-router.get('/update-user',function (req,res,next) {
-    res.send('respond with a update-user');
+//update data user by id
+router.patch('/update-user/:id',function (req,res,next) {
+    var userId = req.params.id;
+    var req_body = req.body;
+
+    if(userId){
+        if(req_body.constructor === Object && Object.keys(req_body).length !==0){
+            var args = {
+                data : req.body,
+                headers:{'Content-Type':'application/json'}
+            };
+
+            var clientPath = firebase_data_url + nodes.usr + '/' + userId + firebase_data_format;
+            client.patch(clientPath,args, function (data,response) {
+                if(response.statusCode === 200){
+                    res.send(data);
+                }
+            });
+        }
+    }else{
+        res.json({'status':'failure','message':'param id missing'});
+    }
 });
 
 //get all property from Firebase Database by their name
@@ -116,3 +135,4 @@ router.get('/get-data-by-key/:property',function (req,res,next) {
 });
 
 module.exports = router;
+
