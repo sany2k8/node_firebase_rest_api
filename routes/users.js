@@ -16,17 +16,23 @@ router.get('/', function(req, res, next) {
   res.send('respond with a users resource');
 });
 
-
 //get all users
 router.get('/get-users',function (req,res,next) {
-    res.send('respond with a get-users');
+    var root_node = 'users';
+    var childPath = firebase_data_url + 'users' + firebase_data_format;
+    client.get(childPath,function (data,response) {
+        if(response.statusCode === 200){
+            res.status(200).send(data);
+        }else{
+            res.send('Firebase connection error');
+        }
+    });
 });
 
 //get user by id
 router.get('/add-user',function (req,res,next) {
     res.send('respond with a add-user');
 });
-
 
 //get user by id
 router.get('/get-user',function (req,res,next) {
@@ -39,13 +45,12 @@ router.get('/delete-user',function (req,res,next) {
     res.send('respond with a delete-user');
 });
 
-
 //update user by id
 router.get('/update-user',function (req,res,next) {
     res.send('respond with a update-user');
 });
 
-//get all messages from Firebase Database
+//get all property from Firebase Database by their name
 router.get('/get-data-by-key/:property',function (req,res,next) {
 
     var validProperty = ['users','messages'];
