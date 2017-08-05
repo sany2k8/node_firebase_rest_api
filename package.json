@@ -1,5 +1,6 @@
 {
   "name": "node-firebase-rest-api",
+  "author" : "Sany Ahmed",
   "version": "0.0.0",
   "private": true,
   "scripts": {

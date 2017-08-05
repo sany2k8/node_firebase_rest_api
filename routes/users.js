@@ -1,10 +1,14 @@
+// import modules
 var express = require('express');
 var router = express.Router();
 var http = require('https');
 
+//firebase variables
+var firebase_data_url = 'https://sany-node.firebaseio.com/';
+var firebase_data_format = ".json";
+
 //Node REST client
 var Client = require('node-rest-client').Client;
-
 var client = new Client();
 
 /* GET users listing. */
@@ -41,24 +45,31 @@ router.get('/update-user',function (req,res,next) {
     res.send('respond with a update-user');
 });
 
+//get all messages from Firebase Database
+router.get('/get-data-by-key/:property',function (req,res,next) {
 
-router.get('/get-name/:property',function (req,res,next) {
-
-    console.log(req.params.property);
+    var validProperty = ['users','messages'];
+    var result =[];
+    var element ={};
     var firebase_prop = req.params.property;
-    // direct way
-    if(firebase_prop){
-       client.get("https://sany-node.firebaseio.com/" + firebase_prop + ".json", function (data, response) {
-         console.log(data);
-         //res.send(data.toString());
-         console.log(typeof data);
-         res.status(200).send(data.toString());
-       });
-    }else{
-        res.send('wrong property name'+req.params.property);
-    }
-   
+    var childPath = firebase_prop + firebase_data_format;
 
+    if(validProperty.indexOf(firebase_prop) > -1){
+
+        client.get(firebase_data_url + childPath , function (data, response) {
+
+            element.status = 'Success';
+            element.data = data;
+            result.push(element);
+            res.status(200).send(result);
+        });
+
+    }else{
+            element.status = 'Failure';
+            element.message = 'Only supports these parameters ['+ (validProperty)+']';
+            result.push(element);
+            res.status(400).send(result);
+    }
 });
 
 module.exports = router;

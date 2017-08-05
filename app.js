@@ -1,3 +1,4 @@
+// import modules
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -5,27 +6,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-//Node REST client
-/*var Client = require('node-rest-client').Client;
-
-var client = new Client();*/
-
-
-// Initialize Firebase
-//var firebase = require("firebase");
-
-//Config
-/*var config = {
-    apiKey: "AIzaSyDpSCGLin0NUNdW41mguGAAU1zb6FdyN0U",
-    authDomain: "sany-node.firebaseapp.com",
-    databaseURL: "https://sany-node.firebaseio.com",
-    projectId: "sany-node",
-    storageBucket: "",
-    messagingSenderId: "693681612262"
-};
-firebase.initializeApp(config);*/
-
-
+// Routes
 var index = require('./routes/index');
 var users = require('./routes/users');
 
@@ -43,8 +24,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Middleware routes
 app.use('/', index);
 app.use('/users', users);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
