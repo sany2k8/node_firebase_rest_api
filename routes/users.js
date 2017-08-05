@@ -21,7 +21,7 @@ router.get('/', function(req, res, next) {
         '/get-user/:id':'Get single user by :id',
         '/delete-user/:id':'Delete a user by :id',
         '/update-user/:id':'Update a user by :id',
-        '/get-data-by-key/:property':'Get all database table from Firebase by :property',
+        '/get-data-by-key/:property':'Get all database table from Firebase by :property'
     } }));
 });
 
@@ -38,7 +38,7 @@ router.get('/get-users',function (req,res,next) {
     });
 });
 
-//get user by id
+//add user
 router.post('/add-user',function (req,res,next) {
     if(req.body.constructor === Object && Object.keys(req.body).length !==0){
         var args = {
@@ -56,10 +56,20 @@ router.post('/add-user',function (req,res,next) {
 });
 
 //get user by id
-router.get('/get-user',function (req,res,next) {
-    res.send('respond with a get-user');
-});
+router.get('/get-user/:id',function (req,res,next) {
 
+    var userId = req.params.id;
+
+    if(userId){
+        var clientPath = firebase_data_url + nodes.usr + '/' + userId + firebase_data_format;
+        console.log(clientPath);
+        client.get(clientPath,function (data,resposne) {
+            res.status(200).send(data);
+        });
+    }else{
+        res.json({'status':'failure','message':'param id missing'});
+    }
+});
 
 //delete user by id
 router.get('/delete-user',function (req,res,next) {
