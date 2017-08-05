@@ -62,7 +62,6 @@ router.get('/get-user/:id',function (req,res,next) {
 
     if(userId){
         var clientPath = firebase_data_url + nodes.usr + '/' + userId + firebase_data_format;
-        console.log(clientPath);
         client.get(clientPath,function (data,resposne) {
             res.status(200).send(data);
         });
@@ -72,8 +71,16 @@ router.get('/get-user/:id',function (req,res,next) {
 });
 
 //delete user by id
-router.get('/delete-user',function (req,res,next) {
-    res.send('respond with a delete-user');
+router.delete('/delete-user/:id',function (req,res,next) {
+    var userId = req.params.id;
+    if(userId){
+        var clientPath = firebase_data_url + nodes.usr + '/' + userId + firebase_data_format;
+        client.delete(clientPath,function (data,resposne) {
+            res.status(200).send(data);
+        });
+    }else{
+        res.json({'status':'failure','message':'param id missing'});
+    }
 });
 
 //update user by id
